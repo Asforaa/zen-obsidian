@@ -14,6 +14,7 @@ This repository is a modular kit, not a replacement `.obsidian` folder. It does 
 |---|---|---|
 | **Zen AMOLED** | Essential | The exact color-variable foundation, derived from Vanilla AMOLED under its ISC License. |
 | **Vertical Tabs** | Essential | Native left-sidebar tabs, split sessions, full native menus, safe close/restore, and the contained writing surface. |
+| **Hider** | Essential | Removes the vault profile block and editor status bar using the bundled two-flag preset. |
 | **Zen Obsidian CSS** | Essential for the complete look | Centers launchers, removes redundant window chrome, and hides the duplicate File Explorer new-note control. |
 | **Modern Outline patch** | Optional | An always-available document minimap with immediate scroll tracking. |
 
@@ -49,6 +50,7 @@ See [Installation](docs/INSTALLATION.md), [Components](docs/COMPONENTS.md), [Sho
 
 - `vertical-tabs-*.zip` — the installable plugin build.
 - `zen-amoled-*.zip` — the essential theme.
+- `hider-*.zip` — Hider's upstream build plus the two-flag Zen preset.
 - `zen-obsidian.css` — the finishing snippet.
 
 These are separate on purpose: existing vault users can install only the layers they want without extracting a complete configuration directory.

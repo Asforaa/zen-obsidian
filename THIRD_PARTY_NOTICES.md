@@ -18,3 +18,6 @@ The Zen derivative changes the secondary and focused-titlebar colors from near-b
 
 `optional/modern-outline` is a patched derivative of [Modern Outline](https://github.com/KreNtal/obsidian-modern-outline) by KreNtal. Its original MIT License is preserved in `optional/modern-outline/source/LICENSE`.
 
+## Hider
+
+`vendor/hider/release` contains the unmodified Hider 1.7.1 release by Steph Ango, downloaded from [kepano/obsidian-hider](https://github.com/kepano/obsidian-hider). Hider is distributed under the MIT License preserved at `vendor/hider/LICENSE`.

@@ -34,14 +34,16 @@ Restart Obsidian after installation. Community plugins may require turning off R
 ## Manual installation
 
 1. Copy `release/vertical-tabs` to `<vault>/.obsidian/plugins/brave-tabs`.
-2. Copy `theme/Zen AMOLED` to `<vault>/.obsidian/themes/Zen AMOLED`.
-3. Copy `snippets/Zen Obsidian.css` to `<vault>/.obsidian/snippets/Zen Obsidian.css`.
-4. In **Settings → Appearance**, select **Zen AMOLED** and enable **Zen Obsidian** under CSS snippets.
-5. In **Settings → Community plugins**, enable **Vertical Tabs**.
-6. Assign only the shortcuts you want from [Shortcuts](SHORTCUTS.md).
+2. Install Hider 1.7.1 from Obsidian's community browser, or copy `vendor/hider/release` to `<vault>/.obsidian/plugins/obsidian-hider`.
+3. In Hider settings, enable only **Hide status bar** and **Hide vault name** for the Zen preset.
+4. Copy `theme/Zen AMOLED` to `<vault>/.obsidian/themes/Zen AMOLED`.
+5. Copy `snippets/Zen Obsidian.css` to `<vault>/.obsidian/snippets/Zen Obsidian.css`.
+6. In **Settings → Appearance**, select **Zen AMOLED** and enable **Zen Obsidian** under CSS snippets.
+7. In **Settings → Community plugins**, enable **Vertical Tabs** and **Hider**.
+8. Assign only the shortcuts you want from [Shortcuts](SHORTCUTS.md).
 
 These steps do not replace the vault's workspace or other configuration files.
 
 ## Removing the kit
 
-Disable Vertical Tabs and the Zen Obsidian snippet, then select another theme. The plugin restores Obsidian's native horizontal tabs and right-sidebar toggle when disabled. Component folders may be deleted afterward while Obsidian is closed.
+Disable Vertical Tabs, Hider, and the Zen Obsidian snippet, then select another theme. Vertical Tabs restores Obsidian's native horizontal tabs and right-sidebar toggle when disabled. Component folders may be deleted afterward while Obsidian is closed.

@@ -17,6 +17,15 @@ Vertical Tabs is the functional and structural layer. It:
 - supplies commands for Files/Tabs switching and full sidebar toggles;
 - adds the rounded, inset writing surface, stable right-sidebar control, edge fades, and breadcrumb transition.
 
+## Essential: Hider
+
+Hider 1.7.1 removes two pieces of native chrome that otherwise remain visible in a clean vault:
+
+- **Hide status bar** removes backlinks, properties, word count, character count, and status icons from the bottom-right edge.
+- **Hide vault name** removes the vault switcher, help, and settings block from the bottom-left sidebar.
+
+The automated installer preserves an existing Hider installation and, with explicit `--configure`, merges only `hideStatus: true` and `hideVault: true` into its settings. Every changed Hider data file is backed up first.
+
 ## Essential for the complete look: Zen Obsidian CSS
 
 The snippet contains the small global rules that should remain independently toggleable:

@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.2.0 — 2026-09-11
+
+- Added Hider 1.7.1 as an essential, licensed component.
+- Added the minimal Zen Hider preset: hide the status bar and vault profile only.
+- Preserved existing Hider installations and settings; configuration merges are opt-in and backed up.
+- Re-tested the public installation path in the clean demo vault.
+
 ## 0.1.0 — 2026-09-11
 
 - Published Vertical Tabs 0.7.0 with native sidebar placement, drag ordering, full context menus, split sessions, safe close/restore, and sidebar commands.
@@ -8,4 +15,3 @@
 - Bundled the patched Modern Outline 1.1.7 as an optional component.
 - Added a conservative installer with dry-run, opt-in configuration merging, conflict refusal, and backups.
 - Verified the documented flow from a public clone into a clean local vault.
-

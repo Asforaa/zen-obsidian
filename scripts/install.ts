@@ -93,10 +93,18 @@ async function writeMergedJson(path: string, value: unknown): Promise<void> {
   }
 }
 
-await mkdir(vault, { recursive: true });
-if (!dryRun) await mkdir(obsidian, { recursive: true });
+if (!dryRun) {
+  await mkdir(vault, { recursive: true });
+  await mkdir(obsidian, { recursive: true });
+}
 
 await installDirectory(join(root, "release", "vertical-tabs"), join(obsidian, "plugins", "brave-tabs"));
+const hiderTarget = join(obsidian, "plugins", "obsidian-hider");
+if ((await exists(join(hiderTarget, "manifest.json"))) && !replace) {
+  actions.push("keep existing .obsidian/plugins/obsidian-hider (use --replace to install the bundled build)");
+} else {
+  await installDirectory(join(root, "vendor", "hider", "release"), hiderTarget);
+}
 await installDirectory(join(root, "theme", "Zen AMOLED"), join(obsidian, "themes", "Zen AMOLED"));
 await installFile(join(root, "snippets", "Zen Obsidian.css"), join(obsidian, "snippets", "Zen Obsidian.css"));
 
@@ -123,7 +131,7 @@ if (configure) {
   const pluginsPath = join(obsidian, "community-plugins.json");
   const plugins = await readJson<unknown[]>(pluginsPath, []);
   const enabled = plugins.filter((item): item is string => typeof item === "string");
-  for (const id of ["brave-tabs", ...(withModernOutline ? ["modern-outline"] : [])]) {
+  for (const id of ["brave-tabs", "obsidian-hider", ...(withModernOutline ? ["modern-outline"] : [])]) {
     if (!enabled.includes(id)) enabled.push(id);
   }
   await writeMergedJson(pluginsPath, enabled);
@@ -143,6 +151,12 @@ if (configure) {
     "brave-tabs:toggle-right-sidebar": [{ modifiers: ["Alt", "Shift"], key: "B" }],
   });
   await writeMergedJson(hotkeysPath, hotkeys);
+
+  const hiderDataPath = join(obsidian, "plugins", "obsidian-hider", "data.json");
+  const hiderData = await readJson<Record<string, unknown>>(hiderDataPath, {});
+  const hiderPreset = await readJson<Record<string, unknown>>(join(root, "presets", "hider.json"), {});
+  Object.assign(hiderData, hiderPreset);
+  await writeMergedJson(hiderDataPath, hiderData);
 }
 
 console.log(actions.join("\n"));
