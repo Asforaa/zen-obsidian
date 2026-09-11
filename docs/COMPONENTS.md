@@ -2,7 +2,7 @@
 
 ## Essential: Zen AMOLED
 
-The exact setup depends on Vanilla AMOLED's compact dark color foundation. This repository bundles a pinned, minimally modified derivative as **Zen AMOLED** so the result is reproducible and does not overwrite an existing Vanilla AMOLED installation.
+The exact setup depends on Vanilla AMOLED's compact dark color foundation. This repository bundles a pinned, minimally modified derivative as **Zen AMOLED** so the result is reproducible and does not overwrite an existing Vanilla AMOLED installation. It also pins the setup's blue-violet accent variables instead of inheriting a machine's current accent.
 
 ## Essential: Vertical Tabs
 
@@ -32,4 +32,3 @@ The bundled patch keeps the minimap attached after restarts and sidebar focus, a
 ## Deliberately not bundled
 
 Omnisearch, QuickAdd, Commander, Excalidraw, Agentation Bridge, personal fonts, and the rest of the original vault workflow are not required for the layout. Install them independently if you want their behavior.
-

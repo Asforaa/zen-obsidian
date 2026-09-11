@@ -5,6 +5,9 @@
  */
 
 .theme-dark {
+  --accent-h: 233;
+  --accent-s: 88%;
+  --accent-l: 66%;
   --color-base-00: #000;
   --color-base-05: #000;
   --color-base-10: #111;
@@ -23,4 +26,3 @@
   --titlebar-background: var(--color-base-00);
   --titlebar-background-focused: var(--color-base-00);
 }
-
