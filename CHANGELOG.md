@@ -5,6 +5,7 @@
 - Added Hider 1.7.1 as an essential, licensed component.
 - Added the minimal Zen Hider preset: hide the status bar and vault profile only.
 - Preserved existing Hider installations and settings; configuration merges are opt-in and backed up.
+- Added a complete conflict preflight so a refused file cannot leave a partial installation behind.
 - Re-tested the public installation path in the clean demo vault.
 
 ## 0.1.0 — 2026-09-11

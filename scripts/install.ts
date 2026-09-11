@@ -67,6 +67,17 @@ async function installDirectory(source: string, target: string): Promise<void> {
   }
 }
 
+async function preflightFile(source: string, target: string): Promise<void> {
+  if (!(await exists(target)) || (await sameFile(source, target)) || replace) return;
+  throw new Error(`Refusing to replace ${target}. Re-run with --replace to back it up first.`);
+}
+
+async function preflightDirectory(source: string, target: string): Promise<void> {
+  for (const entry of new Bun.Glob("**/*").scanSync({ cwd: source, onlyFiles: true })) {
+    await preflightFile(join(source, entry), join(target, entry));
+  }
+}
+
 async function readJson<T>(path: string, fallback: T): Promise<T> {
   if (!(await exists(path))) return fallback;
   return JSON.parse(await readFile(path, "utf8")) as T;
@@ -93,13 +104,24 @@ async function writeMergedJson(path: string, value: unknown): Promise<void> {
   }
 }
 
+const hiderTarget = join(obsidian, "plugins", "obsidian-hider");
+await preflightDirectory(join(root, "release", "vertical-tabs"), join(obsidian, "plugins", "brave-tabs"));
+if (!(await exists(join(hiderTarget, "manifest.json"))) || replace) {
+  await preflightDirectory(join(root, "vendor", "hider", "release"), hiderTarget);
+}
+await preflightDirectory(join(root, "theme", "Zen AMOLED"), join(obsidian, "themes", "Zen AMOLED"));
+await preflightFile(join(root, "snippets", "Zen Obsidian.css"), join(obsidian, "snippets", "Zen Obsidian.css"));
+if (withModernOutline) {
+  await preflightDirectory(join(root, "optional", "modern-outline", "release"), join(obsidian, "plugins", "modern-outline"));
+}
+if (demoNote) await preflightDirectory(join(root, "examples"), vault);
+
 if (!dryRun) {
   await mkdir(vault, { recursive: true });
   await mkdir(obsidian, { recursive: true });
 }
 
 await installDirectory(join(root, "release", "vertical-tabs"), join(obsidian, "plugins", "brave-tabs"));
-const hiderTarget = join(obsidian, "plugins", "obsidian-hider");
 if ((await exists(join(hiderTarget, "manifest.json"))) && !replace) {
   actions.push("keep existing .obsidian/plugins/obsidian-hider (use --replace to install the bundled build)");
 } else {
