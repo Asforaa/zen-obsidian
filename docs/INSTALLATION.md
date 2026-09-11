@@ -26,7 +26,7 @@ Options:
 - `--configure`: selects Zen AMOLED, enables the Zen snippet and Vertical Tabs, and merges the shortcut preset.
 - `--with-modern-outline`: installs and enables the optional patched Modern Outline build.
 - `--replace`: replaces only conflicting Zen component files after backing them up.
-- `--demo-note`: adds the included welcome note; intended only for a disposable test vault.
+- `--demo-note`: adds the included example notes; intended only for a disposable test vault.
 - `--dry-run`: reports actions without writing.
 
 Restart Obsidian after installation. Community plugins may require turning off Restricted Mode once before they can load.
@@ -45,4 +45,3 @@ These steps do not replace the vault's workspace or other configuration files.
 ## Removing the kit
 
 Disable Vertical Tabs and the Zen Obsidian snippet, then select another theme. The plugin restores Obsidian's native horizontal tabs and right-sidebar toggle when disabled. Component folders may be deleted afterward while Obsidian is closed.
-

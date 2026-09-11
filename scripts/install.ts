@@ -105,7 +105,7 @@ if (withModernOutline) {
 }
 
 if (demoNote) {
-  await installFile(join(root, "examples", "Welcome to Zen Obsidian.md"), join(vault, "Welcome to Zen Obsidian.md"));
+  await installDirectory(join(root, "examples"), vault);
 }
 
 if (configure) {
@@ -147,4 +147,3 @@ if (configure) {
 
 console.log(actions.join("\n"));
 console.log(dryRun ? "Dry run complete; nothing was written." : "Installation complete. Restart Obsidian and open the target vault.");
-
