@@ -52,6 +52,7 @@ See [Installation](docs/INSTALLATION.md), [Components](docs/COMPONENTS.md), [Sho
 - `zen-amoled-*.zip` — the essential theme.
 - `hider-*.zip` — Hider's upstream build plus the two-flag Zen preset.
 - `zen-obsidian.css` — the finishing snippet.
+- `modern-outline-*-zen.zip` — the optional patched outline build and preset.
 
 These are separate on purpose: existing vault users can install only the layers they want without extracting a complete configuration directory.
 
