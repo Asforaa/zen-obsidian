@@ -5,14 +5,15 @@ import { fileURLToPath } from "node:url";
 const args = process.argv.slice(2);
 const vaultArgument = args.find((arg) => !arg.startsWith("--"));
 if (!vaultArgument || args.includes("--help")) {
-  console.log("Usage: bun scripts/install.ts /absolute/path/to/vault [--configure] [--with-modern-outline] [--replace] [--demo-note] [--dry-run]");
+  console.log("Usage: bun scripts/install.ts /absolute/path/to/vault [--configure] [--without-modern-outline] [--without-tab-switcher] [--replace] [--demo-note] [--dry-run]");
   process.exit(vaultArgument ? 0 : 1);
 }
 
 const dryRun = args.includes("--dry-run");
 const configure = args.includes("--configure");
 const replace = args.includes("--replace");
-const withModernOutline = args.includes("--with-modern-outline");
+const withModernOutline = !args.includes("--without-modern-outline");
+const withTabSwitcher = !args.includes("--without-tab-switcher");
 const demoNote = args.includes("--demo-note");
 const root = resolve(dirname(fileURLToPath(import.meta.url)), "..");
 const vault = resolve(vaultArgument);
@@ -114,6 +115,9 @@ await preflightFile(join(root, "snippets", "Zen Obsidian.css"), join(obsidian, "
 if (withModernOutline) {
   await preflightDirectory(join(root, "optional", "modern-outline", "release"), join(obsidian, "plugins", "modern-outline"));
 }
+if (withTabSwitcher) {
+  await preflightDirectory(join(root, "optional", "tab-switcher", "release"), join(obsidian, "plugins", "cycle-through-panes"));
+}
 if (demoNote) await preflightDirectory(join(root, "examples"), vault);
 
 if (!dryRun) {
@@ -132,6 +136,9 @@ await installFile(join(root, "snippets", "Zen Obsidian.css"), join(obsidian, "sn
 
 if (withModernOutline) {
   await installDirectory(join(root, "optional", "modern-outline", "release"), join(obsidian, "plugins", "modern-outline"));
+}
+if (withTabSwitcher) {
+  await installDirectory(join(root, "optional", "tab-switcher", "release"), join(obsidian, "plugins", "cycle-through-panes"));
 }
 
 if (demoNote) {
@@ -153,7 +160,12 @@ if (configure) {
   const pluginsPath = join(obsidian, "community-plugins.json");
   const plugins = await readJson<unknown[]>(pluginsPath, []);
   const enabled = plugins.filter((item): item is string => typeof item === "string");
-  for (const id of ["brave-tabs", "obsidian-hider", ...(withModernOutline ? ["modern-outline"] : [])]) {
+  for (const id of [
+    "brave-tabs",
+    "obsidian-hider",
+    ...(withModernOutline ? ["modern-outline"] : []),
+    ...(withTabSwitcher ? ["cycle-through-panes"] : []),
+  ]) {
     if (!enabled.includes(id)) enabled.push(id);
   }
   await writeMergedJson(pluginsPath, enabled);
@@ -171,6 +183,10 @@ if (configure) {
     "brave-tabs:undo-close-main-tab": [{ modifiers: ["Mod", "Shift"], key: "T" }],
     "brave-tabs:toggle-left-sidebar": [{ modifiers: ["Alt"], key: "B" }],
     "brave-tabs:toggle-right-sidebar": [{ modifiers: ["Alt", "Shift"], key: "B" }],
+    ...(withTabSwitcher ? {
+      "cycle-through-panes:focus-on-last-active-pane": [{ modifiers: ["Mod"], key: "Tab" }],
+      "cycle-through-panes:focus-on-last-active-pane-reverse": [{ modifiers: ["Mod", "Shift"], key: "Tab" }],
+    } : {}),
   });
   await writeMergedJson(hotkeysPath, hotkeys);
 
@@ -179,6 +195,14 @@ if (configure) {
   const hiderPreset = await readJson<Record<string, unknown>>(join(root, "presets", "hider.json"), {});
   Object.assign(hiderData, hiderPreset);
   await writeMergedJson(hiderDataPath, hiderData);
+
+  if (withTabSwitcher) {
+    const tabSwitcherDataPath = join(obsidian, "plugins", "cycle-through-panes", "data.json");
+    const tabSwitcherData = await readJson<Record<string, unknown>>(tabSwitcherDataPath, {});
+    const tabSwitcherPreset = await readJson<Record<string, unknown>>(join(root, "optional", "tab-switcher", "preset.json"), {});
+    Object.assign(tabSwitcherData, tabSwitcherPreset);
+    await writeMergedJson(tabSwitcherDataPath, tabSwitcherData);
+  }
 }
 
 if (configure || demoNote) {

@@ -12,8 +12,9 @@ The automated `--configure` preset adds these bindings while preserving unrelate
 | `Ctrl+Shift+T` | Restore the latest closed main-workspace tab |
 | `Alt+B` | Toggle the left sidebar |
 | `Alt+Shift+B` | Toggle the right sidebar |
+| `Ctrl+Tab` | Tab Switcher: cycle to the previous main Markdown note |
+| `Ctrl+Shift+Tab` | Tab Switcher: reverse through main Markdown notes |
 
 The preset explicitly removes `Ctrl+E`, `Ctrl+W`, and `Ctrl+Shift+T` from the corresponding native commands so the safe Vertical Tabs commands have one owner. Existing JSON files are backed up before this opt-in merge.
 
-`Ctrl+Tab` is intentionally not assigned by this repository. The original setup currently uses the separate Tab Switcher plugin with a Markdown-only filter; that dependency is not necessary for the visual kit.
-
+The standard configured installation adds the two `Ctrl+Tab` bindings. Use `--without-tab-switcher` to omit the plugin, its preset, and both bindings. Its preset excludes sidebar views, hides the modal, and switches immediately.

@@ -373,3 +373,6 @@ body.vertical-tabs-unified-header .view-header-title-container.brave-tabs-title-
   visibility: visible !important;
   opacity: 1 !important;
 }
+.vertical-tabs-compact-ribbon .workspace-ribbon .side-dock-actions > .side-dock-ribbon-action:nth-of-type(n + 5) {
+  display: none;
+}

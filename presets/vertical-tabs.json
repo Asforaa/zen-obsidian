@@ -1,3 +1,4 @@
 {
-  "ensureLocalGraph": true
+  "ensureLocalGraph": true,
+  "compactRibbon": true
 }

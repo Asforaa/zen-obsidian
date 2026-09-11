@@ -48,6 +48,7 @@ type VerticalTabsData = {
   orderedLeafIds: string[];
   splitLeafIds: string[];
   ensureLocalGraph: boolean;
+  compactRibbon: boolean;
   demoStartNote?: string;
 };
 
@@ -99,6 +100,7 @@ export default class BraveTabsPlugin extends Plugin {
   private orderedLeafIds: string[] = [];
   private splitLeafIds: string[] = [];
   ensureLocalGraph = false;
+  compactRibbon = false;
   private demoStartNote: string | undefined;
   private groupSignature = "";
   private renderHoldCount = 0;
@@ -113,9 +115,11 @@ export default class BraveTabsPlugin extends Plugin {
     this.orderedLeafIds = stored?.orderedLeafIds ?? [];
     this.splitLeafIds = stored?.splitLeafIds ?? [];
     this.ensureLocalGraph = stored?.ensureLocalGraph ?? false;
+    this.compactRibbon = stored?.compactRibbon ?? false;
     this.demoStartNote = stored?.demoStartNote;
     this.removeLegacyUi();
     document.body.classList.add("vertical-tabs-unified-header");
+    document.body.classList.toggle("vertical-tabs-compact-ribbon", this.compactRibbon);
     this.registerView(VIEW_TYPE, (leaf) => new BraveTabsView(leaf, this));
     this.addSettingTab(new VerticalTabsSettingTab(this));
 
@@ -226,6 +230,7 @@ export default class BraveTabsPlugin extends Plugin {
     this.showAllMainGroups();
     this.restoreRightSidebarToggle();
     document.body.classList.remove("vertical-tabs-unified-header");
+    document.body.classList.remove("vertical-tabs-compact-ribbon");
     this.removeLegacyUi();
   }
 
@@ -571,6 +576,7 @@ export default class BraveTabsPlugin extends Plugin {
       orderedLeafIds: this.orderedLeafIds,
       splitLeafIds: this.splitLeafIds,
       ensureLocalGraph: this.ensureLocalGraph,
+      compactRibbon: this.compactRibbon,
       ...(this.demoStartNote ? { demoStartNote: this.demoStartNote } : {}),
     } satisfies VerticalTabsData);
   }
@@ -589,7 +595,18 @@ export default class BraveTabsPlugin extends Plugin {
   async setEnsureLocalGraph(enabled: boolean): Promise<void> {
     this.ensureLocalGraph = enabled;
     await this.persistData();
-    if (enabled) this.scheduleEnsureLocalGraph();
+    if (enabled) {
+      this.scheduleEnsureLocalGraph();
+      return;
+    }
+    for (const leaf of this.app.workspace.getLeavesOfType("localgraph")) leaf.detach();
+    this.app.workspace.requestSaveLayout();
+  }
+
+  async setCompactRibbon(enabled: boolean): Promise<void> {
+    this.compactRibbon = enabled;
+    document.body.classList.toggle("vertical-tabs-compact-ribbon", enabled);
+    await this.persistData();
   }
 
   private scheduleEnsureLocalGraph(): void {
@@ -725,10 +742,17 @@ class VerticalTabsSettingTab extends PluginSettingTab {
     this.containerEl.empty();
     new Setting(this.containerEl)
       .setName("Keep Local Graph in the left sidebar")
-      .setDesc("Creates one Local Graph section at the Zen 34.76% height when it is missing. Existing panes and their sizing are left untouched.")
+      .setDesc("Turn on to create and keep one Local Graph at the Zen 34.76% height. Turn off to close it immediately.")
       .addToggle((toggle) => toggle
         .setValue(this.verticalTabs.ensureLocalGraph)
         .onChange((value) => this.verticalTabs.setEnsureLocalGraph(value)));
+
+    new Setting(this.containerEl)
+      .setName("Compact ribbon")
+      .setDesc("Keep only the first four ribbon actions for the quieter Zen sidebar. Turn off to restore every action.")
+      .addToggle((toggle) => toggle
+        .setValue(this.verticalTabs.compactRibbon)
+        .onChange((value) => this.verticalTabs.setCompactRibbon(value)));
   }
 }
 

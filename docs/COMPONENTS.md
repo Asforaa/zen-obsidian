@@ -17,8 +17,9 @@ Vertical Tabs is the functional and structural layer. It:
 - supplies commands for Files/Tabs switching and full sidebar toggles;
 - adds the rounded, inset writing surface, stable right-sidebar control, edge fades, and breadcrumb transition.
 - can idempotently provision one Local Graph as a separate lower-left section, using the reference 34.76% sidebar height.
+- can reduce the left ribbon to its first four actions through a reversible Zen preset toggle.
 
-The Local Graph option is off in the standalone plugin and enabled by the Zen installer preset. It reuses any existing Local Graph pane and does not overwrite or ship `workspace.json`.
+The Local Graph option is off in the standalone plugin and enabled by the Zen installer preset. It reuses any existing Local Graph pane and does not overwrite or ship `workspace.json`. Turning the setting off closes the pane immediately and stops its recreation.
 
 ## Essential: Hider
 
@@ -37,10 +38,19 @@ The snippet contains the small global rules that should remain independently tog
 - hidden native desktop window-control buttons;
 - hidden duplicate File Explorer new-note button.
 
-## Optional: Modern Outline
+## Included by default: Modern Outline
 
-The bundled patch keeps the minimap attached after restarts and sidebar focus, and updates the active section immediately during note scrolling. It is not required for Vertical Tabs or the shell.
+The bundled patch keeps the minimap attached after restarts and sidebar focus, and updates the active section immediately during note scrolling. Use `--without-modern-outline` to leave it out.
 
-## Deliberately not bundled
+## Included by default: Tab Switcher
 
-Omnisearch, QuickAdd, Commander, Excalidraw, Agentation Bridge, personal fonts, and the rest of the original vault workflow are not required for the layout. Install them independently if you want their behavior.
+The bundled Tab Switcher 1.5.2 build and Zen preset provide the reference keyboard behavior:
+
+- `Ctrl+Tab` and `Ctrl+Shift+Tab` cycle main Markdown note tabs only;
+- sidebar views such as Files, Vertical Tabs, and Local Graph are excluded;
+- switching happens immediately without a modal;
+- all editor splits and pinned notes remain eligible.
+
+The complete corresponding upstream source and GNU GPL v3 license are included under `optional/tab-switcher/source`.
+
+Use `--without-tab-switcher` to leave it and its shortcuts out.

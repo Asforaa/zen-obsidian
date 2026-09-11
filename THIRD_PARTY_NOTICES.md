@@ -21,3 +21,7 @@ The Zen derivative changes the secondary and focused-titlebar colors from near-b
 ## Hider
 
 `vendor/hider/release` contains the unmodified Hider 1.7.1 release by Steph Ango, downloaded from [kepano/obsidian-hider](https://github.com/kepano/obsidian-hider). Hider is distributed under the MIT License preserved at `vendor/hider/LICENSE`.
+
+## Tab Switcher
+
+`optional/tab-switcher` contains Tab Switcher 1.5.2 by Vinzent and phibr0 from [Vinzent03/tab-switcher](https://github.com/Vinzent03/tab-switcher), plus the Zen configuration preset. It is distributed under GNU GPL v3; the license and complete corresponding source are included with the component.

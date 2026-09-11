@@ -4,7 +4,7 @@ A quiet, AMOLED-black, note-first Obsidian desktop setup with native-feeling ver
 
 ![Zen Obsidian](assets/zen-obsidian.png)
 
-This repository is a modular kit, not a replacement `.obsidian` folder. It does not contain a workspace snapshot, personal notes, plugin data, credentials, or a complete hotkey file.
+This repository is a modular kit, not a replacement `.obsidian` folder. It includes only scoped Zen presets and disposable demo notes—never a workspace snapshot, personal vault content, credentials, or a complete hotkey/plugin-data dump.
 
 [Download the latest release](https://github.com/Asforaa/zen-obsidian/releases/latest) or use the source-based installer below.
 
@@ -16,13 +16,14 @@ This repository is a modular kit, not a replacement `.obsidian` folder. It does 
 | **Vertical Tabs** | Essential | Native left-sidebar tabs, split sessions, full native menus, safe close/restore, the contained writing surface, and optional Local Graph provisioning. |
 | **Hider** | Essential | Removes the vault profile block and editor status bar using the bundled two-flag preset. |
 | **Zen Obsidian CSS** | Essential for the complete look | Centers launchers, removes redundant window chrome, and hides the duplicate File Explorer new-note control. |
-| **Modern Outline patch** | Optional | An always-available document minimap with immediate scroll tracking. |
+| **Modern Outline patch** | Included by default, removable | An always-available document minimap with immediate scroll tracking. |
+| **Tab Switcher preset** | Included by default, removable | Browser-style `Ctrl+Tab` cycling restricted to main Markdown note tabs, without a modal. |
 
 The theme is installed as **Zen AMOLED**, beside—not over—the upstream Vanilla AMOLED theme.
 
 ## Safe automated installation
 
-Requires [Bun](https://bun.sh/).
+Obsidian runs the distributed JavaScript and CSS directly; end users do not need Bun at runtime. [Bun](https://bun.sh/) is required only for this repository's automated installer and source build commands. Manual installation needs no JavaScript package manager.
 
 ```bash
 git clone https://github.com/Asforaa/zen-obsidian.git
@@ -32,7 +33,7 @@ bun run install -- "/absolute/path/to/your/vault" --dry-run --configure
 bun run install -- "/absolute/path/to/your/vault" --configure
 ```
 
-Add `--with-modern-outline` if you also want the patched outline. Add `--demo-note` only for a disposable test vault; its one-shot `Start Here` page links three sample notes so Local Graph opens with a visible four-node cluster.
+The standard command installs the complete setup, including Modern Outline and Tab Switcher. Add `--without-modern-outline` or `--without-tab-switcher` to omit either component. Add `--demo-note` only for a disposable test vault; its one-shot `Start Here` page links three sample notes so Local Graph opens with a visible four-node cluster.
 
 The installer:
 
@@ -54,7 +55,8 @@ See [Installation](docs/INSTALLATION.md), [Components](docs/COMPONENTS.md), [Sho
 - `zen-amoled-*.zip` — the essential theme.
 - `hider-*.zip` — Hider's upstream build plus the two-flag Zen preset.
 - `zen-obsidian.css` — the finishing snippet.
-- `modern-outline-*-zen.zip` — the optional patched outline build and preset.
+- `modern-outline-*-zen.zip` — the included-by-default patched outline build and preset.
+- `tab-switcher-*-zen.zip` — the included-by-default tested Tab Switcher build and Markdown-only preset.
 
 These are separate on purpose: existing vault users can install only the layers they want without extracting a complete configuration directory.
 

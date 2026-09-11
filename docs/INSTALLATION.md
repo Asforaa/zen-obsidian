@@ -6,6 +6,8 @@ Close Obsidian or switch away from the target vault. Commit or back up the vault
 
 ## Automated installation
 
+This installer uses Bun. The installed Obsidian theme, snippet, and plugin builds are ordinary CSS and JavaScript and do not require Bun afterward. Use the manual steps below if you do not want to install a package manager.
+
 Clone the repository and preview the exact changes:
 
 ```bash
@@ -23,8 +25,9 @@ bun run install -- "/absolute/path/to/Vault" --configure
 
 Options:
 
-- `--configure`: selects Zen AMOLED, enables the Zen snippet and plugins, merges the shortcut preset, and enables safe Local Graph provisioning.
-- `--with-modern-outline`: installs and enables the optional patched Modern Outline build.
+- `--configure`: selects Zen AMOLED, enables the Zen snippet and all included plugins, merges the shortcut presets, and enables safe Local Graph provisioning.
+- `--without-modern-outline`: omits Modern Outline from the installation and enabled-plugin merge.
+- `--without-tab-switcher`: omits Tab Switcher, its configuration, and its `Ctrl+Tab` / `Ctrl+Shift+Tab` bindings.
 - `--replace`: replaces only conflicting Zen component files after backing them up.
 - `--demo-note`: adds four linked example notes and opens `Start Here` once, giving Local Graph a ready-made demo cluster; intended only for a disposable test vault.
 - `--dry-run`: reports actions without writing.
@@ -38,10 +41,12 @@ Restart Obsidian after installation. Community plugins may require turning off R
 3. In Hider settings, enable only **Hide status bar** and **Hide vault name** for the Zen preset.
 4. Copy `theme/Zen AMOLED` to `<vault>/.obsidian/themes/Zen AMOLED`.
 5. Copy `snippets/Zen Obsidian.css` to `<vault>/.obsidian/snippets/Zen Obsidian.css`.
-6. In **Settings → Appearance**, select **Zen AMOLED** and enable **Zen Obsidian** under CSS snippets.
-7. In **Settings → Community plugins**, enable **Vertical Tabs** and **Hider**.
-8. In **Vertical Tabs** settings, enable **Keep Local Graph in the left sidebar** if desired.
-9. Assign only the shortcuts you want from [Shortcuts](SHORTCUTS.md).
+6. Copy `optional/modern-outline/release` to `<vault>/.obsidian/plugins/modern-outline`.
+7. Copy `optional/tab-switcher/release` to `<vault>/.obsidian/plugins/cycle-through-panes`, then copy `optional/tab-switcher/preset.json` as that plugin's `data.json`.
+8. In **Settings → Appearance**, select **Zen AMOLED** and enable **Zen Obsidian** under CSS snippets.
+9. In **Settings → Community plugins**, enable **Vertical Tabs**, **Hider**, **Modern Outline**, and **Tab Switcher**.
+10. In **Vertical Tabs** settings, enable **Keep Local Graph in the left sidebar** and **Compact ribbon**.
+11. Assign the shortcuts from [Shortcuts](SHORTCUTS.md).
 
 These steps do not replace the vault's workspace or other configuration files.
 

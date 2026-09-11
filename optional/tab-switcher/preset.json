@@ -1,0 +1,10 @@
+{
+  "viewTypes": [
+    "markdown"
+  ],
+  "showModal": false,
+  "skipPinned": false,
+  "stayInSplit": false,
+  "focusLeafOnKeyUp": false,
+  "useViewTypes": true
+}
