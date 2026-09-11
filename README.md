@@ -6,6 +6,8 @@ A quiet, AMOLED-black, note-first Obsidian desktop setup with native-feeling ver
 
 This repository is a modular kit, not a replacement `.obsidian` folder. It does not contain a workspace snapshot, personal notes, plugin data, credentials, or a complete hotkey file.
 
+[Download the latest release](https://github.com/Asforaa/zen-obsidian/releases/latest) or use the source-based installer below.
+
 ## What is included
 
 | Layer | Status | Purpose |
@@ -43,6 +45,14 @@ If you deliberately want to update an existing Zen component, add `--replace`. T
 
 See [Installation](docs/INSTALLATION.md), [Components](docs/COMPONENTS.md), [Shortcuts](docs/SHORTCUTS.md), and [Compatibility](docs/COMPATIBILITY.md).
 
+## Release downloads
+
+- `vertical-tabs-*.zip` — the installable plugin build.
+- `zen-amoled-*.zip` — the essential theme.
+- `Zen Obsidian.css` — the finishing snippet.
+
+These are separate on purpose: existing vault users can install only the layers they want without extracting a complete configuration directory.
+
 ## Build Vertical Tabs
 
 ```bash
@@ -59,4 +69,3 @@ This project intentionally excludes `workspace.json`, full `appearance.json` and
 ## License
 
 Zen Obsidian and Vertical Tabs are MIT licensed. Bundled derivatives retain their upstream notices; see [Third-party notices](THIRD_PARTY_NOTICES.md).
-
