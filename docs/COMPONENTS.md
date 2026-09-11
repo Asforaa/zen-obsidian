@@ -16,6 +16,9 @@ Vertical Tabs is the functional and structural layer. It:
 - protects main-note close and undo-close behavior from sidebar focus;
 - supplies commands for Files/Tabs switching and full sidebar toggles;
 - adds the rounded, inset writing surface, stable right-sidebar control, edge fades, and breadcrumb transition.
+- can idempotently provision one Local Graph as a separate lower-left section, using the reference 34.76% sidebar height.
+
+The Local Graph option is off in the standalone plugin and enabled by the Zen installer preset. It reuses any existing Local Graph pane and does not overwrite or ship `workspace.json`.
 
 ## Essential: Hider
 

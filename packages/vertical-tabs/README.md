@@ -28,6 +28,7 @@ A local Obsidian plugin that mirrors the current main-workspace tabs in a native
 - A split layout is one persistent tab-session at its existing list position. Clicking a normal tab shows only that note; clicking either split member restores every pane in the saved split.
 - Right-clicking any row opens Obsidian's exact native tab menu and keeps it open until normal dismissal. Native active-state checks are spoofed synchronously and restored before paint, so the target editor never appears or receives focus.
 - The complete active note breadcrumb, including its folder path and filename, uses a relaxed blur-in transition when switching pages.
+- An optional setting keeps one Local Graph in its own lower-left sidebar section. New panes use the Zen reference graph options and 34.76% height; existing panes and sizing are preserved.
 - A tab's close button is visible only while that exact row is hovered.
 - Tabs close only from an explicit close or middle-click action.
 - The plugin never expires, merges, deduplicates, or automatically closes tabs.

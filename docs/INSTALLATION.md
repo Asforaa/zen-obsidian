@@ -23,10 +23,10 @@ bun run install -- "/absolute/path/to/Vault" --configure
 
 Options:
 
-- `--configure`: selects Zen AMOLED, enables the Zen snippet and Vertical Tabs, and merges the shortcut preset.
+- `--configure`: selects Zen AMOLED, enables the Zen snippet and plugins, merges the shortcut preset, and enables safe Local Graph provisioning.
 - `--with-modern-outline`: installs and enables the optional patched Modern Outline build.
 - `--replace`: replaces only conflicting Zen component files after backing them up.
-- `--demo-note`: adds the included example notes; intended only for a disposable test vault.
+- `--demo-note`: adds four linked example notes and opens `Start Here` once, giving Local Graph a ready-made demo cluster; intended only for a disposable test vault.
 - `--dry-run`: reports actions without writing.
 
 Restart Obsidian after installation. Community plugins may require turning off Restricted Mode once before they can load.
@@ -40,7 +40,8 @@ Restart Obsidian after installation. Community plugins may require turning off R
 5. Copy `snippets/Zen Obsidian.css` to `<vault>/.obsidian/snippets/Zen Obsidian.css`.
 6. In **Settings → Appearance**, select **Zen AMOLED** and enable **Zen Obsidian** under CSS snippets.
 7. In **Settings → Community plugins**, enable **Vertical Tabs** and **Hider**.
-8. Assign only the shortcuts you want from [Shortcuts](SHORTCUTS.md).
+8. In **Vertical Tabs** settings, enable **Keep Local Graph in the left sidebar** if desired.
+9. Assign only the shortcuts you want from [Shortcuts](SHORTCUTS.md).
 
 These steps do not replace the vault's workspace or other configuration files.
 

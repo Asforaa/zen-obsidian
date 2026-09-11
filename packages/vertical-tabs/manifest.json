@@ -1,7 +1,7 @@
 {
   "id": "brave-tabs",
   "name": "Vertical Tabs",
-  "version": "0.7.0",
+  "version": "0.8.0",
   "minAppVersion": "1.8.0",
   "description": "Native vertical tabs and a focused desktop workspace for Obsidian.",
   "author": "Asforaa",

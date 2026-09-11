@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.3.0 — 2026-09-11
+
+- Added opt-in Local Graph provisioning through Vertical Tabs instead of shipping a personal `workspace.json`.
+- Added the reference Local Graph display/force preset and 34.76% lower-left sidebar height.
+- Existing Local Graph panes and their sizing are preserved; missing panes are created once without duplication.
+- Added a one-shot `Start Here` demo note linked to the other three examples, producing an immediate four-node Local Graph cluster.
+
 ## 0.2.0 — 2026-09-11
 
 - Added Hider 1.7.1 as an essential, licensed component.

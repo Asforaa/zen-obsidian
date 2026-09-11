@@ -13,7 +13,7 @@ This repository is a modular kit, not a replacement `.obsidian` folder. It does 
 | Layer | Status | Purpose |
 |---|---|---|
 | **Zen AMOLED** | Essential | The exact color-variable foundation, derived from Vanilla AMOLED under its ISC License. |
-| **Vertical Tabs** | Essential | Native left-sidebar tabs, split sessions, full native menus, safe close/restore, and the contained writing surface. |
+| **Vertical Tabs** | Essential | Native left-sidebar tabs, split sessions, full native menus, safe close/restore, the contained writing surface, and optional Local Graph provisioning. |
 | **Hider** | Essential | Removes the vault profile block and editor status bar using the bundled two-flag preset. |
 | **Zen Obsidian CSS** | Essential for the complete look | Centers launchers, removes redundant window chrome, and hides the duplicate File Explorer new-note control. |
 | **Modern Outline patch** | Optional | An always-available document minimap with immediate scroll tracking. |
@@ -32,7 +32,7 @@ bun run install -- "/absolute/path/to/your/vault" --dry-run --configure
 bun run install -- "/absolute/path/to/your/vault" --configure
 ```
 
-Add `--with-modern-outline` if you also want the patched outline. Add `--demo-note` only for a disposable test vault.
+Add `--with-modern-outline` if you also want the patched outline. Add `--demo-note` only for a disposable test vault; its one-shot `Start Here` page links three sample notes so Local Graph opens with a visible four-node cluster.
 
 The installer:
 
@@ -41,6 +41,8 @@ The installer:
 - skips identical files;
 - refuses to replace different existing component files;
 - backs up every JSON file before an opt-in configuration merge.
+
+With `--configure`, the Zen preset also asks Vertical Tabs to create one Local Graph section in the left sidebar when none exists. It uses the same 34.76% height as the reference setup and never replaces `workspace.json`.
 
 If you deliberately want to update an existing Zen component, add `--replace`. The replaced files are backed up under `.obsidian/zen-obsidian-backups/` first.
 

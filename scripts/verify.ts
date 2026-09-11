@@ -17,6 +17,8 @@ const required = [
   "vendor/hider/release/styles.css",
   "vendor/hider/LICENSE",
   "presets/hider.json",
+  "presets/vertical-tabs.json",
+  "examples/Start Here.md",
   "optional/modern-outline/release/main.js",
   "optional/modern-outline/source/LICENSE",
 ];

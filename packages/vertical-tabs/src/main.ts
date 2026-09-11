@@ -2,6 +2,9 @@ import {
   ItemView,
   Menu,
   Plugin,
+  PluginSettingTab,
+  Setting,
+  TFile,
   WorkspaceLeaf,
   WorkspaceSplit,
   setIcon,
@@ -15,15 +18,22 @@ type WorkspaceNode = {
 
 type MainTabGroup = SidebarTabGroup & WorkspaceNode;
 
+type SidebarSplit = {
+  children: SidebarTabGroup[];
+  recomputeChildrenDimensions: () => void;
+};
+
 type SidebarTabGroup = {
   id: string;
   children: WorkspaceLeaf[];
   containerEl: HTMLElement;
   currentTab: number;
+  parent: SidebarSplit;
   insertChild: (index: number, leaf: WorkspaceLeaf) => void;
   removeChild: (leaf: WorkspaceLeaf) => void;
   selectTab: (leaf: WorkspaceLeaf) => void;
   recomputeChildrenDimensions: () => void;
+  setDimension: (dimension: number | null) => void;
 };
 
 type InternalLeaf = WorkspaceLeaf & {
@@ -37,7 +47,36 @@ type InternalLeaf = WorkspaceLeaf & {
 type VerticalTabsData = {
   orderedLeafIds: string[];
   splitLeafIds: string[];
+  ensureLocalGraph: boolean;
+  demoStartNote?: string;
 };
+
+const LOCAL_GRAPH_OPTIONS = {
+  "collapse-filter": true,
+  search: "",
+  localJumps: 1,
+  localBacklinks: true,
+  localForelinks: true,
+  localInterlinks: false,
+  showTags: false,
+  showAttachments: false,
+  hideUnresolved: false,
+  "collapse-color-groups": true,
+  colorGroups: [],
+  "collapse-display": true,
+  showArrow: false,
+  textFadeMultiplier: 0,
+  nodeSizeMultiplier: 1,
+  lineSizeMultiplier: 1,
+  "collapse-forces": true,
+  centerStrength: 0.518713248970312,
+  repelStrength: 10,
+  linkStrength: 1,
+  linkDistance: 250,
+  close: true,
+};
+
+const LOCAL_GRAPH_HEIGHT_PERCENT = 34.763948497854074;
 
 type UndoHistoryEntry = {
   rootId?: string;
@@ -56,8 +95,11 @@ export default class BraveTabsPlugin extends Plugin {
   private renderQueued = false;
   private activeMainLeaf: WorkspaceLeaf | null = null;
   private ensureTimer: number | null = null;
+  private localGraphEnsureTimer: number | null = null;
   private orderedLeafIds: string[] = [];
   private splitLeafIds: string[] = [];
+  ensureLocalGraph = false;
+  private demoStartNote: string | undefined;
   private groupSignature = "";
   private renderHoldCount = 0;
   private renderPending = false;
@@ -70,9 +112,12 @@ export default class BraveTabsPlugin extends Plugin {
     const stored = (await this.loadData()) as Partial<VerticalTabsData> | null;
     this.orderedLeafIds = stored?.orderedLeafIds ?? [];
     this.splitLeafIds = stored?.splitLeafIds ?? [];
+    this.ensureLocalGraph = stored?.ensureLocalGraph ?? false;
+    this.demoStartNote = stored?.demoStartNote;
     this.removeLegacyUi();
     document.body.classList.add("vertical-tabs-unified-header");
     this.registerView(VIEW_TYPE, (leaf) => new BraveTabsView(leaf, this));
+    this.addSettingTab(new VerticalTabsSettingTab(this));
 
     this.addCommand({
       id: "show-vertical-tabs",
@@ -143,6 +188,7 @@ export default class BraveTabsPlugin extends Plugin {
         this.reconcileSessions();
         this.queueRender();
         this.scheduleEnsureSidebarView();
+        this.scheduleEnsureLocalGraph();
         this.scheduleRightSidebarToggleRelocation();
       }),
     );
@@ -162,15 +208,19 @@ export default class BraveTabsPlugin extends Plugin {
     }));
 
     this.app.workspace.onLayoutReady(() => {
-      this.reconcileSessions();
-      this.scheduleEnsureSidebarView();
-      this.observeRightSidebarToggle();
-      this.scheduleRightSidebarToggleRelocation();
+      void this.openDemoStartNote().finally(() => {
+        this.reconcileSessions();
+        this.scheduleEnsureSidebarView();
+        this.scheduleEnsureLocalGraph();
+        this.observeRightSidebarToggle();
+        this.scheduleRightSidebarToggleRelocation();
+      });
     });
   }
 
   onunload(): void {
     if (this.ensureTimer !== null) window.clearTimeout(this.ensureTimer);
+    if (this.localGraphEnsureTimer !== null) window.clearTimeout(this.localGraphEnsureTimer);
     this.rightSidebarObserver?.disconnect();
     this.rightSidebarObserver = null;
     this.showAllMainGroups();
@@ -520,7 +570,70 @@ export default class BraveTabsPlugin extends Plugin {
     await this.saveData({
       orderedLeafIds: this.orderedLeafIds,
       splitLeafIds: this.splitLeafIds,
+      ensureLocalGraph: this.ensureLocalGraph,
+      ...(this.demoStartNote ? { demoStartNote: this.demoStartNote } : {}),
     } satisfies VerticalTabsData);
+  }
+
+  private async openDemoStartNote(): Promise<void> {
+    const path = this.demoStartNote;
+    if (!path) return;
+    this.demoStartNote = undefined;
+    await this.persistData();
+    const file = this.app.vault.getAbstractFileByPath(path);
+    if (!(file instanceof TFile)) return;
+    const target = this.getActiveTabLeaf() ?? this.getTabLeaves()[0] ?? this.app.workspace.getLeaf(true);
+    await target.openFile(file, { active: true });
+  }
+
+  async setEnsureLocalGraph(enabled: boolean): Promise<void> {
+    this.ensureLocalGraph = enabled;
+    await this.persistData();
+    if (enabled) this.scheduleEnsureLocalGraph();
+  }
+
+  private scheduleEnsureLocalGraph(): void {
+    if (!this.ensureLocalGraph) return;
+    if (this.localGraphEnsureTimer !== null) window.clearTimeout(this.localGraphEnsureTimer);
+    this.localGraphEnsureTimer = window.setTimeout(() => {
+      this.localGraphEnsureTimer = null;
+      void this.ensureLocalGraphView();
+    }, 350);
+  }
+
+  private async ensureLocalGraphView(): Promise<void> {
+    if (!this.ensureLocalGraph || this.app.workspace.getLeavesOfType("localgraph").length > 0) return;
+    const workspace = this.app.workspace as unknown as {
+      ensureSideLeaf: (
+        type: string,
+        side: "left" | "right",
+        options: { active: boolean; reveal: boolean; split: boolean; state: Record<string, unknown> },
+      ) => Promise<WorkspaceLeaf>;
+      getActiveFile: () => { path: string } | null;
+    };
+    const file = workspace.getActiveFile();
+    try {
+      const leaf = await workspace.ensureSideLeaf("localgraph", "left", {
+        active: false,
+        reveal: false,
+        split: true,
+        state: {
+          ...(file ? { file: file.path } : {}),
+          options: LOCAL_GRAPH_OPTIONS,
+        },
+      });
+      const group = leaf.parent as unknown as SidebarTabGroup;
+      const split = group.parent;
+      if (split.children.length === 2) {
+        group.setDimension(LOCAL_GRAPH_HEIGHT_PERCENT);
+        const sibling = split.children.find((candidate) => candidate !== group);
+        sibling?.setDimension(100 - LOCAL_GRAPH_HEIGHT_PERCENT);
+        split.recomputeChildrenDimensions();
+      }
+      this.app.workspace.requestSaveLayout();
+    } catch (error) {
+      console.warn("Vertical Tabs could not provision Local Graph", error);
+    }
   }
 
   private getExplorerGroup(): SidebarTabGroup | null {
@@ -600,6 +713,22 @@ export default class BraveTabsPlugin extends Plugin {
     const selectedLeaf = group.children[group.currentTab];
     const targetLeaf = selectedLeaf === tabsLeaf ? explorerLeaf : tabsLeaf;
     await this.app.workspace.revealLeaf(targetLeaf);
+  }
+}
+
+class VerticalTabsSettingTab extends PluginSettingTab {
+  constructor(private readonly verticalTabs: BraveTabsPlugin) {
+    super(verticalTabs.app, verticalTabs);
+  }
+
+  display(): void {
+    this.containerEl.empty();
+    new Setting(this.containerEl)
+      .setName("Keep Local Graph in the left sidebar")
+      .setDesc("Creates one Local Graph section at the Zen 34.76% height when it is missing. Existing panes and their sizing are left untouched.")
+      .addToggle((toggle) => toggle
+        .setValue(this.verticalTabs.ensureLocalGraph)
+        .onChange((value) => this.verticalTabs.setEnsureLocalGraph(value)));
   }
 }
 

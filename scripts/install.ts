@@ -181,5 +181,16 @@ if (configure) {
   await writeMergedJson(hiderDataPath, hiderData);
 }
 
+if (configure || demoNote) {
+  const verticalTabsDataPath = join(obsidian, "plugins", "brave-tabs", "data.json");
+  const verticalTabsData = await readJson<Record<string, unknown>>(verticalTabsDataPath, {});
+  if (configure) {
+    const verticalTabsPreset = await readJson<Record<string, unknown>>(join(root, "presets", "vertical-tabs.json"), {});
+    Object.assign(verticalTabsData, verticalTabsPreset);
+  }
+  if (demoNote) verticalTabsData.demoStartNote = "Start Here.md";
+  await writeMergedJson(verticalTabsDataPath, verticalTabsData);
+}
+
 console.log(actions.join("\n"));
 console.log(dryRun ? "Dry run complete; nothing was written." : "Installation complete. Restart Obsidian and open the target vault.");
