@@ -1,0 +1,14 @@
+{
+  "name": "zen-obsidian-kit",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "install": "bun scripts/install.ts",
+    "verify": "bun scripts/verify.ts"
+  },
+  "devDependencies": {
+    "bun-types": "latest"
+  }
+}
+

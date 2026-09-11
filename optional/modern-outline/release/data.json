@@ -1,0 +1,18 @@
+{
+  "sidebarSide": "left",
+  "verticalPosition": "center",
+  "markerColor": "monochrome",
+  "labelColor": "monochrome",
+  "highlightColor": "accent",
+  "markerShape": "dash",
+  "markerSize": "medium",
+  "labelFont": "text",
+  "labelHierarchy": "indent+size",
+  "markerVisibility": "always",
+  "labelsAlwaysOn": false,
+  "treeLines": true,
+  "treeLineColor": "monochrome",
+  "animationsEnabled": true,
+  "minHeadingLevel": 1,
+  "maxHeadingLevel": 4
+}

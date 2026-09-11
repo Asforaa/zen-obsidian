@@ -1,0 +1,15 @@
+{
+  "name": "obsidian-vertical-tabs",
+  "version": "0.7.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "bun build src/main.ts --outdir dist --target browser --format cjs --external obsidian --minify",
+    "check": "tsc --noEmit"
+  },
+  "devDependencies": {
+    "bun-types": "latest",
+    "obsidian": "latest",
+    "typescript": "latest"
+  }
+}
