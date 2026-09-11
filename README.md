@@ -49,7 +49,7 @@ See [Installation](docs/INSTALLATION.md), [Components](docs/COMPONENTS.md), [Sho
 
 - `vertical-tabs-*.zip` — the installable plugin build.
 - `zen-amoled-*.zip` — the essential theme.
-- `Zen Obsidian.css` — the finishing snippet.
+- `zen-obsidian.css` — the finishing snippet.
 
 These are separate on purpose: existing vault users can install only the layers they want without extracting a complete configuration directory.
 
