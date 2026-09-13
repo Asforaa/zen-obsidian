@@ -373,6 +373,38 @@ body.vertical-tabs-unified-header .view-header-title-container.brave-tabs-title-
   visibility: visible !important;
   opacity: 1 !important;
 }
+
+/* Match the ribbon actions to the 36px buttons and 8px rhythm in the
+   sidebar's upper navigation row. */
+body.vertical-tabs-unified-header .workspace-ribbon .side-dock-actions,
+body.vertical-tabs-unified-header .workspace-ribbon .side-dock-settings {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+
+body.vertical-tabs-unified-header
+  .workspace-ribbon
+  .side-dock-ribbon-action {
+  box-sizing: border-box;
+  flex: 0 0 36px;
+  width: 36px;
+  height: 36px;
+  min-height: 36px;
+  margin: 0 !important;
+  padding: 8px;
+  --icon-size: 20px;
+}
+
+body.vertical-tabs-unified-header
+  .workspace-ribbon
+  .side-dock-ribbon-action
+  > svg {
+  width: 20px;
+  height: 20px;
+}
+
 .vertical-tabs-compact-ribbon .workspace-ribbon .side-dock-actions > .side-dock-ribbon-action:nth-of-type(n + 5) {
   display: none;
 }
