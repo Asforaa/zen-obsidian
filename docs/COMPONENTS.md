@@ -49,6 +49,7 @@ The bundled Tab Switcher 1.5.2 build and Zen preset provide the reference keyboa
 - `Ctrl+Tab` and `Ctrl+Shift+Tab` cycle main Markdown note tabs only;
 - sidebar views such as Files, Vertical Tabs, and Local Graph are excluded;
 - switching happens immediately without a modal;
+- a held Ctrl cycle previews tabs without polluting MRU history, then commits only the tab selected when Ctrl is released;
 - all editor splits and pinned notes remain eligible.
 
 The complete corresponding upstream source and GNU GPL v3 license are included under `optional/tab-switcher/source`.

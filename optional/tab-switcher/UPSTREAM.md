@@ -5,4 +5,6 @@
 - Source commit: `cd1672a52713013c789e8ade47ac77ce3879cbfa`
 - License: GNU GPL v3, preserved in `LICENSE` and `source/LICENSE`
 
-The bundled build matches the copy tested in the reference Zen Obsidian vault. The Zen preset changes configuration rather than plugin identity: Markdown views only, no switcher modal, immediate focus, all splits included, and pinned notes included.
+The bundled build keeps the upstream plugin identity and adds one Zen behavior patch: a held MRU cycle snapshots tab activity, allows immediate tab previews, and restores that snapshot before committing only the tab selected when the modifier is released. This prevents intermediate previews from becoming the previous tab.
+
+The Zen preset selects Markdown views only, hides the switcher modal, uses immediate focus, includes all splits, and includes pinned notes.

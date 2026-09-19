@@ -1,5 +1,9 @@
 import { Hotkey, ItemView, Platform, Plugin, WorkspaceLeaf } from "obsidian";
 import { GeneralModal } from "./modal";
+import {
+    captureActiveTimes,
+    restoreAndCommitActiveTime,
+} from "./mruHistory";
 import CTPSettingTab from "./settingsTab";
 import {
     DEFAULT_SETTINGS,
@@ -25,6 +29,8 @@ export default class TaskSwitcherPlugin extends Plugin {
     leafIndex = 0;
     modal: GeneralModal | undefined;
     leaves: WorkspaceLeaf[] | null = null;
+    mruCycleSnapshot: Map<WorkspaceLeaf, number> | null = null;
+    previewedLeaf: WorkspaceLeaf | undefined;
     keyDownFunc = this.onKeyDown.bind(this);
     keyUpFunc = this.onKeyUp.bind(this);
 
@@ -299,6 +305,10 @@ export default class TaskSwitcherPlugin extends Plugin {
     }
 
     queueFocusLeaf(leaf: WorkspaceLeaf) {
+        if (this.mruCycleSnapshot) {
+            this.previewedLeaf = leaf;
+        }
+
         if (this.settings.focusLeafOnKeyUp && this.activeHoldModifier) {
             this.queuedFocusLeaf = leaf;
         } else {
@@ -330,6 +340,10 @@ export default class TaskSwitcherPlugin extends Plugin {
                 leaves.sort((a, b) => {
                     return b.activeTime - a.activeTime;
                 });
+
+                if (this.activeHoldModifier) {
+                    this.mruCycleSnapshot = captureActiveTimes(leaves);
+                }
             }
             this.leaves = leaves;
             const activeLeaf =
@@ -362,6 +376,13 @@ export default class TaskSwitcherPlugin extends Plugin {
 
         if (this.queuedFocusLeaf) {
             this.focusLeaf(this.queuedFocusLeaf);
+        }
+
+        if (this.mruCycleSnapshot) {
+            restoreAndCommitActiveTime(
+                this.mruCycleSnapshot,
+                this.queuedFocusLeaf ?? this.previewedLeaf,
+            );
         }
 
         this.resetCycleState();
@@ -492,6 +513,9 @@ export default class TaskSwitcherPlugin extends Plugin {
         this.activeCycleMode = null;
         this.activeForwardCommandId = null;
         this.activeReverseCommandId = null;
+        this.mruCycleSnapshot = null;
+        this.previewedLeaf = undefined;
+        this.queuedFocusLeaf = undefined;
     }
 
     private getScopedCommandId(commandId: string): string {

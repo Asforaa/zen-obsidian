@@ -1,5 +1,9 @@
 # Changelog
 
+## Unreleased
+
+- Fixed held `Ctrl+Tab` sessions so previewed tabs do not overwrite MRU history; releasing Ctrl commits only the final tab and keeps the tab where the gesture started as the previous tab.
+
 ## 0.3.1 — 2026-09-11
 
 - Added Tab Switcher 1.5.2 and the tested Markdown-only configuration as an optional, source-complete GPL component.
