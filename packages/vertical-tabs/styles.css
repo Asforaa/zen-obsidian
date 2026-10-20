@@ -28,8 +28,9 @@ body.vertical-tabs-unified-header .workspace-split.mod-right-split {
   box-shadow: none !important;
 }
 
-body.vertical-tabs-unified-header .workspace-ribbon.mod-left::before,
-body.vertical-tabs-unified-header .workspace-ribbon.mod-right::before {
+body.vertical-tabs-unified-header .workspace-ribbon:is(.mod-left, .mod-primary)::before,
+body.vertical-tabs-unified-header .workspace-ribbon:is(.mod-right, .mod-secondary)::before {
+  content: none !important;
   border: 0 !important;
   box-shadow: none !important;
 }
@@ -44,9 +45,9 @@ body.vertical-tabs-unified-header .workspace-split.mod-right-split {
   margin-top: 12px;
 }
 
-body.vertical-tabs-unified-header .workspace-ribbon.mod-left {
-  height: calc(100% - 52px);
-  margin-top: 52px;
+body.vertical-tabs-unified-header .workspace-ribbon:is(.mod-left, .mod-primary) {
+  height: calc(100% - 48px);
+  margin-top: 48px;
 }
 
 body.vertical-tabs-unified-header .sidebar-toggle-button.mod-left {
@@ -59,8 +60,8 @@ body.vertical-tabs-unified-header
   padding-left: 2px !important;
 }
 
-body.vertical-tabs-unified-header .workspace-ribbon.mod-left,
-body.vertical-tabs-unified-header .workspace-ribbon.mod-right,
+body.vertical-tabs-unified-header .workspace-ribbon:is(.mod-left, .mod-primary),
+body.vertical-tabs-unified-header .workspace-ribbon:is(.mod-right, .mod-secondary),
 body.vertical-tabs-unified-header .mod-left-split .workspace-tab-header-container,
 body.vertical-tabs-unified-header .mod-left-split .workspace-leaf-resize-handle,
 body.vertical-tabs-unified-header .mod-right-split .workspace-tab-header-container,
@@ -374,35 +375,67 @@ body.vertical-tabs-unified-header .view-header-title-container.brave-tabs-title-
   opacity: 1 !important;
 }
 
-/* Match the ribbon actions to the 36px buttons and 8px rhythm in the
-   sidebar's upper navigation row. */
+/* One shared rhythm for sidebar navigation, toggle, and ribbon actions.
+   Obsidian 1.14 renamed ribbon mod-left/mod-right to mod-primary/mod-secondary. */
+body.vertical-tabs-unified-header {
+  --zen-nav-icon-size: 20px;
+  --zen-nav-button-size: 36px;
+  --zen-nav-gap: 8px;
+}
+
 body.vertical-tabs-unified-header .workspace-ribbon .side-dock-actions,
 body.vertical-tabs-unified-header .workspace-ribbon .side-dock-settings {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 8px;
+  gap: var(--zen-nav-gap);
 }
 
-body.vertical-tabs-unified-header
-  .workspace-ribbon
-  .side-dock-ribbon-action {
+body.vertical-tabs-unified-header .mod-left-split .workspace-tab-header-container {
+  height: var(--zen-nav-button-size);
+  min-height: var(--zen-nav-button-size);
+  border: 0 !important;
+  padding: 0 4px !important;
+  align-items: center;
+}
+
+body.vertical-tabs-unified-header .mod-left-split .workspace-tab-header-container-inner {
+  padding: 0;
+  margin: 0;
+  gap: var(--zen-nav-gap);
+  align-items: center;
+}
+
+body.vertical-tabs-unified-header .workspace-ribbon .side-dock-ribbon-action,
+body.vertical-tabs-unified-header .sidebar-toggle-button.mod-left,
+body.vertical-tabs-unified-header .mod-left-split .workspace-tab-header {
   box-sizing: border-box;
-  flex: 0 0 36px;
-  width: 36px;
-  height: 36px;
-  min-height: 36px;
+  flex: 0 0 var(--zen-nav-button-size);
+  width: var(--zen-nav-button-size);
+  height: var(--zen-nav-button-size);
+  min-height: var(--zen-nav-button-size);
   margin: 0 !important;
   padding: 8px;
-  --icon-size: 20px;
+  --icon-size: var(--zen-nav-icon-size);
 }
 
-body.vertical-tabs-unified-header
-  .workspace-ribbon
-  .side-dock-ribbon-action
-  > svg {
-  width: 20px;
-  height: 20px;
+body.vertical-tabs-unified-header .sidebar-toggle-button.mod-left {
+  left: 4px;
+}
+
+body.vertical-tabs-unified-header .mod-left-split .workspace-tab-header-inner {
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  justify-content: center;
+}
+
+body.vertical-tabs-unified-header .mod-left-split .workspace-tab-header-inner-icon,
+body.vertical-tabs-unified-header .mod-left-split .workspace-tab-header-inner-icon > svg,
+body.vertical-tabs-unified-header .sidebar-toggle-button.mod-left > svg,
+body.vertical-tabs-unified-header .workspace-ribbon .side-dock-ribbon-action > svg {
+  width: var(--zen-nav-icon-size);
+  height: var(--zen-nav-icon-size);
 }
 
 .vertical-tabs-compact-ribbon .workspace-ribbon .side-dock-actions > .side-dock-ribbon-action:nth-of-type(n + 5) {

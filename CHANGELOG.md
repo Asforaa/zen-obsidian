@@ -2,6 +2,9 @@
 
 ## Unreleased
 
+- Fix the ribbon separator crossing the sidebar toggle after Obsidian 1.14 renamed the ribbon classes.
+- Share 20px icons, 36px buttons, and 8px gaps across sidebar navigation and ribbon actions, including the sidebar toggle.
+
 - Fixed held `Ctrl+Tab` sessions so previewed tabs do not overwrite MRU history; releasing Ctrl commits only the final tab and keeps the tab where the gesture started as the previous tab.
 
 ## 0.3.1 — 2026-09-11
